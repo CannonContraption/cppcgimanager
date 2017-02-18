@@ -7,6 +7,11 @@
 #endif
 
 namespace cgim{
+	struct kvpair{
+		std::string key;
+		std::string value;
+	};
+	kvpair * kvpairs;
 	std::string getqstring(){
 		std::string querytype = getenv("REQUEST_METHOD");
 		std::string query;
@@ -21,5 +26,18 @@ namespace cgim{
 			}
 		}
 		return query;
+	}
+	int parsekvpairs(){
+		std::string querystring = getqstring();
+		bool decoding = false;
+		for(char c : querystring){
+			if(c == '%'){
+				decoding = true;
+				//Do character decoding stuff
+			}
+			else{
+				//add the character to a string
+			}
+		}
 	}
 }
