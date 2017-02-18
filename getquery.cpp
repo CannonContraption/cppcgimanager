@@ -30,10 +30,17 @@ namespace cgim{
 	int parsekvpairs(){
 		std::string querystring = getqstring();
 		bool decoding = false;
+		std::string decodestring = "";
 		for(char c : querystring){
 			if(c == '%'){
 				decoding = true;
-				//Do character decoding stuff
+			}
+			else if(decoding){
+				if((int)c > 57){
+					decoding = false;
+					
+				}
+				else decodestring+=c;
 			}
 			else{
 				//add the character to a string
