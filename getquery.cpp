@@ -27,7 +27,7 @@ namespace cgim{
 		}
 		return query;
 	}
-	int parsekvpairs(){
+	std::string parseencoding(){
 		std::string querystring = getqstring();
 		bool decoding = false;
 		std::string decodestring = "";
@@ -46,5 +46,27 @@ namespace cgim{
 				//add the character to a string
 			}
 		}
+	}
+	int parsekvstrings(bool encoding){
+		std::string qstring = "";
+		if(encoding){
+			qstring = parseencoding();
+		}
+		else{
+			qstring = getqstring();
+		}
+		std::string key;
+		std::string value;
+		bool equals;
+		//unfortunately we have to assume there's going to be one pair (for now)
+		//because the ? isn't always sent in a query string. There are better ways
+		//to do this, but getting a complete and working copy is priority right now
+		int numpairs = 1;
+		for(char c: qstring){
+			if(c == '&'){
+				numpairs++;
+			}
+		}
+		kvpairs = new kvpair[numpairs];
 	}
 }
