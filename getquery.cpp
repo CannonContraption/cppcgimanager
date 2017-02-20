@@ -27,7 +27,7 @@ namespace cgim{
 		}
 		return query;
 	}
-	std::string parseencoding(){
+	std::string parseencoding(){ //TODO:this function isn't complete yet
 		std::string querystring = getqstring();
 		bool decoding = false;
 		std::string decodestring = "";
@@ -50,6 +50,7 @@ namespace cgim{
 	/*
 	 * Return codes:
 	 * 1: query string is empty
+	 * 2: miscalculated number of k/v pairs
 	 */
 	int parsekvstrings(bool encoding){
 		std::string qstring = "";
@@ -59,10 +60,11 @@ namespace cgim{
 		else{
 			qstring = getqstring();
 		}
-		std::string key;
-		std::string value;
-		bool equals;
+		std::string key = "";
+		std::string value = "";
+		bool writekey;
 		int numpairs = 0;
+		int currentpair = 0;
 		if(qstring != "")
 			numpairs = 1;
 		else
@@ -73,5 +75,25 @@ namespace cgim{
 			}
 		}
 		kvpairs = new kvpair[numpairs];
+		for(char c: qstring){
+			if(c == '?' || c == '&'){
+				writekey = true;
+				if(key != "" && currentpair < numpairs){
+					kvpairs[currentpair].key = key;
+					kvpairs[currentpair].value = value;
+					currentpair++;
+				}
+				if(currentpair >= numpairs) return 2;
+				key = "";
+				value = "";
+			}
+			else if(writekey){
+				key += c;
+			}
+			else{
+				value += c;
+			}
+		}
+		return 0;
 	}
 }
