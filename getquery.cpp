@@ -47,6 +47,10 @@ namespace cgim{
 			}
 		}
 	}
+	/*
+	 * Return codes:
+	 * 1: query string is empty
+	 */
 	int parsekvstrings(bool encoding){
 		std::string qstring = "";
 		if(encoding){
@@ -58,10 +62,11 @@ namespace cgim{
 		std::string key;
 		std::string value;
 		bool equals;
-		//unfortunately we have to assume there's going to be one pair (for now)
-		//because the ? isn't always sent in a query string. There are better ways
-		//to do this, but getting a complete and working copy is priority right now
-		int numpairs = 1;
+		int numpairs = 0;
+		if(qstring != "")
+			numpairs = 1;
+		else
+			return 1;
 		for(char c: qstring){
 			if(c == '&'){
 				numpairs++;
