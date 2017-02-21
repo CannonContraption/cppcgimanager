@@ -40,8 +40,9 @@ namespace cgim{
 			else if(decoding){
 				if((int)c > 57){
 					decoding = false;
-					if(decodestring = "40"){
+					if(decodestring == "40"){
 						nquerystring+="@";
+					}
 				}
 				else decodestring+=c;
 			}
