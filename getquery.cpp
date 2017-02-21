@@ -32,6 +32,7 @@ namespace cgim{
 		std::string querystring = getqstring();
 		bool decoding = false;
 		std::string decodestring = "";
+		std::string nquerystring;
 		for(char c : querystring){
 			if(c == '%'){
 				decoding = true;
@@ -39,14 +40,16 @@ namespace cgim{
 			else if(decoding){
 				if((int)c > 57){
 					decoding = false;
-					
+					if(decodestring = "40"){
+						nquerystring+="@";
 				}
 				else decodestring+=c;
 			}
 			else{
-				//add the character to a string
+				nquerystring+=c;
 			}
 		}
+		return nquerystring;
 	}
 	/*
 	 * Return codes:
