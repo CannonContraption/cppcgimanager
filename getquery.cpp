@@ -12,6 +12,7 @@ namespace cgim{
 		std::string value;
 	};
 	kvpair * kvpairs;
+	int kvpaircount;
 	std::string getqstring(){
 		std::string querytype = getenv("REQUEST_METHOD");
 		std::string query;
@@ -60,6 +61,7 @@ namespace cgim{
 		else{
 			qstring = getqstring();
 		}
+		//std::cout<<qstring<<std::endl;
 		std::string key = "";
 		std::string value = "";
 		bool writekey;
@@ -74,6 +76,8 @@ namespace cgim{
 				numpairs++;
 			}
 		}
+		kvpaircount = numpairs;
+		//std::cout<<numpairs<<std::endl;
 		kvpairs = new kvpair[numpairs];
 		for(char c: qstring){
 			if(c == '?' || c == '&'){
@@ -81,11 +85,16 @@ namespace cgim{
 				if(key != "" && currentpair < numpairs){
 					kvpairs[currentpair].key = key;
 					kvpairs[currentpair].value = value;
+					//std::cout<<kvpairs[currentpair].key<<std::endl;
+					//std::cout<<kvpairs[currentpair].value<<std::endl;
 					currentpair++;
 				}
 				if(currentpair >= numpairs) return 2;
 				key = "";
 				value = "";
+			}
+			else if(c == '='){
+				writekey = false;
 			}
 			else if(writekey){
 				key += c;
@@ -94,6 +103,10 @@ namespace cgim{
 				value += c;
 			}
 		}
+		kvpairs[currentpair].key = key;
+		kvpairs[currentpair].value = value;
+		//std::cout<<kvpairs[currentpair].key<<std::endl;
+		//std::cout<<kvpairs[currentpair].value<<std::endl;
 		return 0;
 	}
 }
